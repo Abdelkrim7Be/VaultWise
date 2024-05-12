@@ -283,3 +283,35 @@ btnTransfer.addEventListener('click', function (e) {
     // calcDisplaySummary(currentAccount);
   }
 });
+
+
+
+btnClose.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  const closingUsername = inputCloseUsername.value;
+  const closingPin = +inputClosePin.value;
+  if (
+    closingPin === currentAccount.pin &&
+    closingUsername === currentAccount.username
+  ) {
+    const index = accounts.findIndex(
+      acc => acc.username === currentAccount.username
+    );
+    // console.log(index);
+    // the findIndex() method will return the index of the first element that matches the condition, it is like the indexOf()
+    // method but indexOf just verifies if a certain element exists in the  array or not but the findIndex() method verifies
+    //  a complex boolean expression to find the index and return it
+
+    // the splie() method actually mutates the actual array , so we dont have to sauvegarde the result
+
+    // Delete account
+    accounts.splice(index, 1);
+
+    // Hide UI
+    containerApp.style.opacity = 0;
+    // console.log(accounts);
+  }
+  inputCloseUsername.value = inputClosePin.value = '';
+  inputClosePin.blur();
+});

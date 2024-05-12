@@ -132,3 +132,51 @@ const createUsernames = function (accs) {
       .join('');
   });
 };
+
+
+const calcDisplayBalance = function (acc) {
+  acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0);
+  // labelBalance.textContent = balance + "";
+  labelBalance.textContent = `${acc.balance.toFixed(2)} €`;
+  // Label is something we wanna put a text in it
+  // we use in it oftently textContent f label
+};
+
+const calcDisplaySummary = function (acc) {
+  const incomes = acc.movements
+    .filter(mov => mov > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumIn.textContent = `${incomes.toFixed(2)}€`;
+
+  const out = acc.movements
+    .filter(mov => mov < 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumOut.textContent = `${Math.abs(out).toFixed(2)}€`;
+
+  const interests = acc.movements
+    .filter(mov => mov > 0)
+    .map(deposit => (deposit * acc.interestRate) / 100)
+    .filter((int, i, arr) => {
+      console.log(arr); //[2.4, 5.4, 36, 0.84, 15.6]
+      return int >= 1;
+    })
+    .reduce((acc, int) => acc + int, 0);
+  /**.reduce((acc, int) => {
+      if (int >= 1) {
+        return acc + int;
+      } else {
+        return acc;
+      }
+    }, 0); */
+  labelSumInterest.textContent = `${interests.toFixed(2)}€`;
+};
+
+createUsernames(accounts);
+accounts.forEach(acc => {
+  console.log(acc.username);
+});
+// js
+// jd
+// stw
+// ss
+// That is for displaying the balance of the account that logged in

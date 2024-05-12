@@ -351,3 +351,144 @@ btnLoan.addEventListener('click', function (e) {
 
 console.log(movements.every(mov => mov > 0)); //false
 console.log(account2.movements.every(mov => mov > 0)); //true
+
+// -------------------------------- Cool : tip (DRY PRINCIPAL)---------------------------
+// Separate callback
+
+const deposit = mov => mov > 0;
+console.log(movements.some(deposit));
+console.log(movements.every(deposit));
+console.log(movements.filter(deposit));
+
+// FLAT AND FLATMAP METHODS
+
+const arr = [[1, 2, 3], 4, [5, 6], 7, 8];
+console.log(arr.flat());
+// [1, 2, 3, 4, 5, 6, 7, 8];
+
+const arrDeep = [[[1, 2], 3, [4, 5]], 6, 7, 8];
+console.log(arrDeep.flat());
+// [[1, 2], 3, [4, 5], 6, 7, 8];
+// That's because the flat method goes only one level deep
+// to fix that , we need to add the 'Depth' argument
+// usually , flat() === flat(1), it means it flatting based on one level
+
+console.log(arrDeep.flat(2));
+// [1, 2, 3, 4, 5, 6, 7, 8];
+
+// flat
+const overallBalance = accounts
+  .map(acc => acc.movements)
+  .flat()
+  .reduce((acc, mov) => acc + mov, 0);
+console.log(overallBalance); //17840
+
+// flatmap
+const overallBalance2 = accounts
+  .flatMap(acc => acc.movements)
+  .reduce((acc, mov) => acc + mov, 0);
+console.log(overallBalance2); //17840
+
+// But , if u needed to go more than one level deeper , you still need to use the flat(x)
+// method, because, flatmap() goes only one level deep
+
+// Sorting arrays
+
+// Strings
+const owners = ['Jonas', 'Zach', 'Adam', 'Martha'];
+console.log(owners.sort());
+console.log(owners); //sort() mutates the original array ,soo u should be careful
+
+//Numbers
+console.log(movements);
+// [-130, -400, -650, 1300, 200, 3000, 450, 70];
+console.log(movements.sort());
+// [-130, -400, -650, 1300, 200, 3000, 450, 70];
+
+// the sort() method does the sorting based on Strings , that's why we got thsi weird result
+
+// return <0,  A,B
+// return >0, B,A
+
+// Ascending order
+
+// a and b are basically the currenrt and the next elements
+movements.sort((a, b) => {
+  if (a > b) return 1; //it means 'switch order of a and b'
+  if (a < b) return -1; //it means 'keep the order'
+});
+console.log(movements);
+
+// Descending order
+
+// a and b are basically the current and the next elements
+movements.sort((a, b) => {
+  if (a > b) return -1; //it means 'switch order of a and b'
+  if (a < b) return 1; //it means 'keep the order'
+});
+console.log(movements);
+
+// In a smart way hhhh :
+
+// Ascending order
+movements.sort((a, b) => a - b);
+console.log(movements);
+
+// Descending order
+movements.sort((a, b) => b - a);
+console.log(movements);
+
+let sortedState = false;
+btnSort.addEventListener('click', function (e) {
+  e.preventDefault();
+  displayMovements(currentAccount.movements, !sortedState);
+  sortedState = !sortedState;
+});
+
+// whenever we click on the sort button its either gonna sort the moevements after not being sorted, or it is gonna non-sort them after being sorted , that's why we used the state sortedState to track the changes
+
+console.log([1, 2, 3, 4, 5, 6, 7]);
+console.log(new Array(1, 2, 3, 4, 5, 6, 7));
+
+// Empty array + fill method
+const x = new Array(7);
+console.log(x);
+// (7) [vide × 7]
+// length: 7
+// it sa bit weir d, because we can't even fill it up using the map() method
+
+// So :
+//x.fill(1);//mutates the underline array
+console.log(x);
+// [1, 1, 1, 1, 1, 1, 1];
+
+// x.fill(1, 3);
+console.log(x);
+// [null, null, null, 1, 1, 1, 1];
+
+x.fill(1, 3, 5);
+console.log(x);
+// [null, null, null, 1, 1, null, null];
+
+// not-empty array + fill method
+const arrrr = [1, 2, 3, 4, 5, 6, 7];
+arrrr.fill(99, 2, 6);
+console.log(arrrr);
+// [1, 2, 99, 99, 99, 99, 7];
+// it mutated the underline array
+
+// Array.from (a way nicier method)
+const y = Array.from({ length: 7 }, () => 1);
+console.log(y);
+// [1, 1, 1, 1, 1, 1, 1];
+
+const z = Array.from({ length: 7 }, (_, i) => i + 1);
+console.log(z);
+// [1, 2, 3, 4, 5, 6, 7];
+// _ reffers to cur which means current element
+
+const rnd = Array.from(
+  { length: 100 },
+  () => Math.floor(Math.random() * 6) + 1
+);
+console.log(rnd);

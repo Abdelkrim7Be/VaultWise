@@ -106,3 +106,29 @@ const displayMovements = function (movements, sort = false) {
     containerMovements.insertAdjacentHTML('afterbegin', html);
   });
 };
+
+console.log(containerMovements.innerHTML);
+/**<div class="movements__row">
+          <div class="movements__type movements__type--deposit">8 deposit</div>
+          <div class="movements__value">1300</div>
+        </div> */
+
+/**So with beforeend, the order of the movements would be inverted. And that's because each new element would 
+simply be added after the previous one. So at the end of the container, right?
+And so that's after all the child elements that are already in there.
+And that's why I wanted it to be the other way around
+because like this (using 'afterbegin'), it will always be basically appended
+to all the other children. So any new child element will appear before all the other child elements
+that were already there. */
+
+const createUsernames = function (accs) {
+  // to mutate the original array => forEach()
+  // to return a new array without modifying the new one => map()
+  accs.forEach(account => {
+    account.username = account.owner
+      .toLowerCase()
+      .split(' ')
+      .map(name => name[0])
+      .join('');
+  });
+};

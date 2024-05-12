@@ -315,3 +315,39 @@ btnClose.addEventListener('click', function (e) {
   inputCloseUsername.value = inputClosePin.value = '';
   inputClosePin.blur();
 });
+
+
+// SOME method------------------------------
+
+// EQUALITY
+console.log(movements.includes(-130));
+// CONDITION
+console.log(movements.some(mov => mov === -130));
+
+// CONDITION
+const anyDeposits = movements.some(mov => mov > 0);
+console.log(anyDeposits);
+
+// if the 'any' word matches the logic of ur work, u should use the 'some' method then
+// Requesting LOAN
+btnLoan.addEventListener('click', function (e) {
+  e.preventDefault();
+  // const amount = +inputLoanAmount.value;
+  // we are gonna round down the loan value cuz its weird to have it decimal
+  const amount = Math.floor(inputLoanAmount.value);
+  if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
+    // Add the movement
+    currentAccount.movements.push(amount);
+
+    // Update the UI
+    updateUI(currentAccount);
+
+    // Clear the input field
+  }
+  inputLoanAmount.value = '';
+});
+
+// EVERY : if only all the elements in the array verifies the condition in the callback function, then , the 'every' method returns true
+
+console.log(movements.every(mov => mov > 0)); //false
+console.log(account2.movements.every(mov => mov > 0)); //true

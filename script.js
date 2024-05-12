@@ -83,3 +83,26 @@ const inputClosePin = document.querySelector('.form__input--pin');
 
 /////////////////////////////////////////////////
 
+const displayMovements = function (movements, sort = false) {
+  // But we should empty the entire continer , and only then, we should start adding new elements :
+  containerMovements.innerHTML = '';
+  // textContent = 0;
+  // innerHTML is like textContent, the differenece is textContent returns the text inside the wanted element
+  // and innerHTML returns you everythings including the html
+
+  // sorting the array of movements
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+
+  movs.forEach(function (movement, index) {
+    const type = movement > 0 ? 'deposit' : 'withdrawal';
+
+    const html = ` <div class="movements__row">
+          <div class="movements__type movements__type--${type}">${
+      index + 1
+    } ${type}</div>
+          <div class="movements__value">${movement.toFixed(2)}€</div>
+        </div>`;
+
+    containerMovements.insertAdjacentHTML('afterbegin', html);
+  });
+};

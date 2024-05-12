@@ -180,3 +180,83 @@ accounts.forEach(acc => {
 // stw
 // ss
 // That is for displaying the balance of the account that logged in
+
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////
+// LECTURES
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+// The find() method
+
+// find() method is to retrieve one element from the array based on an condition
+// the find() method also loops over an array and execute its callback function in every iteration of it
+
+// find() method returns the FIRST element that satisty the condition
+const firstWithdrawal = movements.find(mov => mov < 0);
+console.log(firstWithdrawal);
+
+// So now, with the help of the find() method , we can find the account based on a property of it
+console.log(accounts);
+
+const account = accounts.find(acc => acc.owner === 'Jessica Davis');
+console.log(account);
+// Object { owner: "Jessica Davis", movements: (8) […], interestRate: 1.5, pin: 2222, username: "jd" }
+
+// Using the FOR OF loop
+let acct = {};
+for (const acc of accounts) {
+  if (acc.owner === 'Jessica Davis') {
+    acct = acc;
+  }
+}
+console.log(acct);
+// Object { owner: "Jessica Davis", movements: (8) […], interestRate: 1.5, pin: 2222, username: "jd" }
+
+// Implementing the login
+
+// Event Handelers
+let currentAccount;
+
+btnLogin.addEventListener('click', function (e) {
+  // console.log("LOGIN"); //it gives us this clg and it reloads
+  // the button in html is for reloading the page
+
+  //This will prevent this form from submitting
+  e.preventDefault();
+  console.log('LOGIN');
+  // The cool thing about forms , is that when you are on focus on some input and u click enter
+  // it submits, which is cool
+
+  // username is a property created with help of the function createUsernames()
+  currentAccount = accounts.find(
+    acc => acc.username === inputLoginUsername.value
+  );
+  console.log(currentAccount);
+  // in case of 'js', it gives me :
+  // { owner: 'Jonas Schmedtmann', movements: Array(8), interestRate: 1.2, pin: 1111, username: 'js' }
+  // 7.20
+
+  // to check if currentAccount exists, (in some cases, the login username is wrong so we get an erreur for the currentAccount being undefined and then the pin give us an error)
+
+  // if (currentAccount && currentAccount.pin === Number(inputLoginPin.value)) {
+  if (currentAccount?.pin === +inputLoginPin.value) {
+    // (inputLoginPin.value) is always be a string
+
+    //Display UI and a welcome message
+    labelWelcome.textContent = `Welcome back ${
+      currentAccount.owner.split(' ')[0]
+    }!`;
+    containerApp.style.opacity = 100;
+
+    // Clear input fields, and lose the focus on them
+    inputLoginPin.value = inputLoginUsername.value = ''; //because the reading and assignment is from the right
+    inputLoginPin.blur();
+
+    updateUI(currentAccount);
+
+    console.log('Login');
+  }
+});
+
